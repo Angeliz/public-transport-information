@@ -1,6 +1,6 @@
 package publicTransportInformation2;
 
-public class Triple implements Comparable<Triple>, Addible<Triple>{		//Ï¡Êè¾ØÕó·Ç0ÔªËØÈıÔª×éÀà
+public class Triple implements Comparable<Triple>{		//Ï¡Êè¾ØÕó·Ç0ÔªËØÈıÔª×éÀà,ÓÃ×öÍ¼´øÈ¨ÖµµÄ±ß
 	int row,column,value;												//ĞĞºÅ¡¢ÁĞºÅ¡¢ÔªËØÖµ
 	public Triple (int row,int column,int value){						//ÓĞ²Î¹¹Ôì·½·¨
 		if(row>=0&&column>=0){
@@ -13,10 +13,32 @@ public class Triple implements Comparable<Triple>, Addible<Triple>{		//Ï¡Êè¾ØÕó·
 		}
 	}
 	public Triple(Triple tri){											//¿½±´¹¹Ôì·½·¨£¬¸´ÖÆÒ»¸öÈıÔªÊı×é
-		this.(tri.row, tri.column, tri.value);
+		this(tri.row, tri.column, tri.value);
 	}
 	public String toString(){
-		
+		return "("+row+","+column+","+value+")";
+	}
+	
+	//¸ù¾İĞĞÁĞÎ»ÖÃ±È½ÏÈıÔª×é¶ÔÏó´óĞ¡£¬ÓëÔªËØÖµÎŞ¹Ø£¬Ô¼¶¨ÈıÔª×éÅÅĞò´ÎĞò
+	public int compareTo(Triple tri){
+		if(this.row==tri.row && this.column==tri.column){				//Çø±ğequals
+			return 0;
+		}
+		return (this.row<tri.row||this.row==tri.row && this.column<tri.column)?-1:1;
+	}
+//	public void add(Triple term){										//¼Ó·¨ÔËËã
+//		if(this.compareTo(term)==0){
+//			this.value+=term.value;										
+//		}
+//		else{
+//			throw new IllegalArgumentException("Á½ÏîÖ¸Êı²»Í¬²»ÄÜÏà¼Ó");
+//		}
+//	}
+//	public boolean removable(){
+//		return this.value==0;
+//	}
+	public Triple toSymmetry(){
+		return new Triple(this.column,this.row,this.value);
 	}
 
 }
