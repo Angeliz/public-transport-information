@@ -2,7 +2,7 @@ package publicTransportInformation2;
 
 public abstract class AbstractGraph<String> {
 	protected static final int MAX_WEIGHT=0x0000ffff; 	//最大权值（表示无穷大∞）
-	protected SeqList<String> vertexlist;					//顶点顺序表，存储图的顶点集合
+	protected SeqList<String> vertexlist;				//顶点顺序表，存储图的顶点集合
 	public AbstractGraph(int length){					//有参构造方法，顶点数为0，length指定顺序表容量
 		this.vertexlist=new SeqList(length);
 	}
