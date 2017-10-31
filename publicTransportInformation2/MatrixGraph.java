@@ -98,4 +98,56 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 		}
 		return -1;
 	}
+	
+	
+	//最短路径,求每对顶点的最短路径及长度，Floyed算法
+	public void shortestPath(){
+		int n=this.vertexCount();							//图的顶点数
+		Matrix path=new Matrix(n);							//最短路径矩阵,初值为0
+		Matrix dist=new Matrix(n);							//长度矩阵，同上
+		for(int i=0;i<n;i++){								//初始化两个矩阵
+			for(int j=0;j<n;j++){
+				int w=this.weight(i, j);
+				dist.set(i, j, w);
+				path.set(i, j, (i!=j&&w<MAX_WEIGHT?i:-1));
+			}
+		}
+		for(int k=0;k<n;k++){								//以vk作为其他路径的中间顶点
+			for(int i=0;i<n;i++){
+				if(i!=k){
+					for(int j=0;j<n;j++){
+						if(j!=k&&j!=i&&dist.get(i, j)>(dist.get(i, k)+dist.get(k, j))){
+							dist.set(i, j, dist.get(i, k)+dist.get(k, j));
+							path.set(i, j, path.get(k, j));
+						}
+					}
+				}
+				
+			}
+		}
+		System.out.println("每对顶点的最短路径如下：");
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				if(i!=j){
+//					System.out.print(toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j))+",");
+					String str=String.format("%16s", toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j)));
+					System.out.print(str);
+				}
+			}
+			System.out.println();
+		}
+	}
+	
+	private String toPath(Matrix path,int i,int j){		//返回path路径矩阵中从顶点vi到vj的一条路径字符串
+		SinglyList<String> pathlink=new SinglyList<String>();		//单链表，记录最短路径经过顶点，用于反序
+		pathlink.insert(0, (String) this.getVertex(j));				//单链表插入最短路径终点vj
+		for(int k=path.get(i, j);k!=i&&k!=j&&k!=-1;k=path.get(i, k)){
+			pathlink.insert(0, (String) this.getVertex(k));
+		}
+		pathlink.insert(0, (String) this.getVertex(i));
+		return pathlink.toString();
+		
+		
+		
+	}
 }

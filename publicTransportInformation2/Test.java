@@ -25,6 +25,7 @@ public class Test {
 		};
 		MatrixGraph<String> graph=new MatrixGraph<String>(vertices,edges);
 		System.out.println(graph.toString());
+		graph.shortestPath();
 	}
 
 }
