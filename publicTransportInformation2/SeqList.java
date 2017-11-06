@@ -30,6 +30,14 @@ public class SeqList<String> extends Object {
 		}
 		return null;
 	}
+	public Node getOne(int i){
+		if(i>=0 && i<this.n){
+//			Object source=new Object();
+			Node source=new Node((String)this.element[i],null);
+			return source;
+		}
+		return null;
+	}
 	public void set(int i,String x){ 								//置值
 		if(x==null){
 			throw new NullPointerException("x==null");    			//抛出空对象异常
