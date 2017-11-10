@@ -26,7 +26,7 @@ public class Test {
 		MatrixGraph<String> graph=new MatrixGraph<String>(vertices,edges);
 		System.out.println(graph.toString());
 		graph.shortestPath();
-		graph.getPaths(graph.getVertices(0), null, graph.getVertices(0), graph.getVertices(1));
+		graph.FindAllPath(0, 3);
 	}
 
 }

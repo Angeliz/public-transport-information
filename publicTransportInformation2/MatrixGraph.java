@@ -155,111 +155,90 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 		return pathlink.toString();	
 	}
 	
-//	public void FindAllPath(String startNodeKey,String endNodeKey){
-//		
-//	}
+	public void FindAllPath(int i,int goal){
+		int value[][]={{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
+		Matrix visited=new Matrix(this.vertexCount(),this.vertexCount(),value);	//存储边是否被访问
+		for(int m=0;m<this.vertexCount();m++){
+			for(int n=0;n<this.vertexCount();n++){
+				if(m==n||this.weight(m, n)==MAX_WEIGHT){
+					visited.set(m, n, -1);
+				}
+			}
+		}																	//将自身和没有边连接的设为-1，其余为0表示未被访问，当为1时表示已访问
+		
+		SeqStack path=new SeqStack();										//顺序栈存储路径
+		path.push(i);														//起点入栈
+		path.outPut();
+		int j=this.next(i, -1);												//初始化j
+		boolean havePath=true;
+		while(visited.get(i, j)==0&&path.inStack(j)==false&&path.peek()!=goal&&havePath==true&&i>-1){
+			path.push(j);
+			visited.set(i, j, 1);
+			i=j;
+			j=this.next(i, -1);
+			for(int t=0;t<this.vertexCount();t++){
+				havePath=false;
+				if(visited.get(j, t)==0){
+					havePath=true;
+					break;
+				}
+			}
+		}
+		while(havePath==false&&i>-1){					//如果是死路，重新给j赋值
+			for(int k=-1;k<this.vertexCount()-1;k++){
+				if(visited.get(i, k)==0&&path.inStack(k+1)==false){
+					j=this.next(i, k);
+					break;
+				}
+			}
+			while(visited.get(i, j)==0&&path.inStack(j)==false&&path.peek()!=goal){
+				path.push(j);
+				visited.set(i, j, 1);
+				i=j;
+				j=this.next(i, -1);
+			}
+			
+		}
+		
+		while(path.peek()==goal&&i>-1){
+			path.outPut();
+			path.pop();
+			for(int k=-1;k<this.vertexCount()-1;k++){
+				if(visited.get(i, k)==0&&path.inStack(k+1)==false){
+					j=this.next(i, k);
+					break;
+				}
+			}
+			while(j==goal||havePath==false&&i>-1){
+				j=i;
+				i--;
+				//重新给j赋值
+				for(int k=-1;k<this.vertexCount()-1;k++){
+					if(visited.get(i, k)==0&&path.inStack(k+1)==false){
+						j=this.next(i, k);
+						break;
+					}
+				}
+				while(visited.get(i, j)==0&&path.inStack(j)==false&&path.peek()!=goal){
+					path.push(j);
+					visited.set(i, j, 1);
+					i=j;
+					j=this.next(i, -1);
+				}
+			}
+			while(visited.get(i, j)==0&&path.inStack(j)==false&&path.peek()!=goal&&i>-1){
+				path.push(j);
+				visited.set(i, j, 1);
+				i=j;
+				j=this.next(i, -1);
+			}
+		}
+		
+		
+		
+	}
 	
-	public static Stack<Node> stack = new Stack<Node>();  
-    /* 存储路径的集合 */  
-    public static ArrayList<Object[]> sers = new ArrayList<Object[]>();  
-  
-    /* 判断节点是否在栈中 */  
-    public static boolean isNodeInStack(Node node)  
-    {  
-        Iterator<Node> it = stack.iterator();  
-        while (it.hasNext()) {  
-            Node node1 = (Node) it.next();  
-            if (node == node1)  
-                return true;  
-        }  
-        return false;  
-    }  
-  
-    /* 此时栈中的节点组成一条所求路径，转储并打印输出 */  
-    public static void showAndSavePath()  
-    {  
-        Object[] o = stack.toArray();  
-        for (int i = 0; i < o.length; i++) {  
-            Node nNode = (Node) o[i];  
-              
-            if(i < (o.length - 1))  
-                System.out.print(nNode.getName() + "->");  
-            else  
-                System.out.print(nNode.getName());  
-        }  
-        sers.add(o); /* 转储 */  
-        System.out.println("\n");  
-    }  
-  
-    /* 
-     * 寻找路径的方法  
-     * cNode: 当前的起始节点currentNode 
-     * pNode: 当前起始节点的上一节点previousNode 
-     * sNode: 最初的起始节点startNode 
-     * eNode: 终点endNode 
-     */  
-    public static boolean getPaths(Node cNode, Node pNode, Node sNode, Node eNode) {  
-        Node nNode = null;  
-        /* 如果符合条件判断说明出现环路，不能再顺着该路径继续寻路，返回false */  
-        if (cNode != null && pNode != null && cNode == pNode)  
-            return false;  
-  
-        if (cNode != null) {  
-            int i = 0;  
-            /* 起始节点入栈 */  
-            stack.push(cNode);  
-            /* 如果该起始节点就是终点，说明找到一条路径 */  
-            if (cNode == eNode)  
-            {  
-                /* 转储并打印输出该路径，返回true */  
-                showAndSavePath();  
-                return true;  
-            }  
-            /* 如果不是,继续寻路 */  
-            else  
-            {  
-                /*  
-                 * 从与当前起始节点cNode有连接关系的节点集中按顺序遍历得到一个节点 
-                 * 作为下一次递归寻路时的起始节点  
-                 */  
-                nNode = (Node) cNode.getRelationNodes().get(i);  
-                while (nNode != null) {  
-                    /* 
-                     * 如果nNode是最初的起始节点或者nNode就是cNode的上一节点或者nNode已经在栈中 ，  
-                     * 说明产生环路 ，应重新在与当前起始节点有连接关系的节点集中寻找nNode 
-                     */  
-                    if (pNode != null  
-                            && (nNode == sNode || nNode == pNode || isNodeInStack(nNode))) {  
-                        i++;  
-                        if (i >= cNode.getRelationNodes().size())  
-                            nNode = null;  
-                        else  
-                            nNode = (Node) cNode.getRelationNodes().get(i);  
-                        continue;  
-                    }  
-                    /* 以nNode为新的起始节点，当前起始节点cNode为上一节点，递归调用寻路方法 */  
-                    if (getPaths(nNode, cNode, sNode, eNode))/* 递归调用 */  
-                    {  
-                        /* 如果找到一条路径，则弹出栈顶节点 */  
-                        stack.pop();  
-                    }  
-                    /* 继续在与cNode有连接关系的节点集中测试nNode */  
-                    i++;  
-                    if (i >= cNode.getRelationNodes().size())  
-                        nNode = null;  
-                    else  
-                        nNode = (Node) cNode.getRelationNodes().get(i);  
-                }  
-                /*  
-                 * 当遍历完所有与cNode有连接关系的节点后， 
-                 * 说明在以cNode为起始节点到终点的路径已经全部找到  
-                 */  
-                stack.pop();  
-                return false;  
-            }  
-        } else  
-            return false;  
-    }  
+
 	
 	
 }
