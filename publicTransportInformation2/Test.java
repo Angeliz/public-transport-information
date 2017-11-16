@@ -1,4 +1,7 @@
 package publicTransportInformation2;
+
+import java.util.Scanner;
+
 //需求：
 //1.用图结构存储站点数据，查询任意两个站点之间的多条路径及换乘方案
 //2.计算最短路径，选择最佳换乘方案
@@ -25,8 +28,12 @@ public class Test {
 		};
 		MatrixGraph<String> graph=new MatrixGraph<String>(vertices,edges);
 		System.out.println(graph.toString());
-		graph.shortestPath();
-		graph.FindAllPath(0, 3);
+		Scanner in=new Scanner(System.in);
+		System.out.println("请输入源点：");
+		String str=in.nextLine();
+		str=str.toUpperCase();
+		graph.shortestPath(str.charAt(0)-'A');
+//		graph.FindAllPath(0, 3);
 	}
 
 }
