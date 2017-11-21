@@ -28,12 +28,12 @@ public class Test {
 		};
 		MatrixGraph<String> graph=new MatrixGraph<String>(vertices,edges);
 		System.out.println(graph.toString());
-		Scanner in=new Scanner(System.in);
-		System.out.println("请输入源点：");
-		String str=in.nextLine();
-		str=str.toUpperCase();
-		graph.shortestPath(str.charAt(0)-'A');
-//		graph.FindAllPath(0, 3);
+//		Scanner in=new Scanner(System.in);
+//		System.out.println("请输入源点：");
+//		String str=in.nextLine();
+//		str=str.toUpperCase();
+		graph.shortestPath();
+		graph.FindAllPath(3,4);
 	}
 
 }
