@@ -160,10 +160,11 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 	
 	
 	//最短路径,求每对顶点的最短路径及长度，Floyed算法
-	public void shortestPath(){
+	public void shortestPath(int t,int s){
 		int n=this.vertexCount();							//图的顶点数
 		Matrix path=new Matrix(n);							//最短路径矩阵,初值为0
 		Matrix dist=new Matrix(n);							//长度矩阵，同上
+		MatrixString result=new MatrixString(n);						//矩阵存储最终结果
 		for(int i=0;i<n;i++){								//初始化两个矩阵
 			for(int j=0;j<n;j++){
 				int w=this.weight(i, j);
@@ -184,20 +185,25 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 				
 			}
 		}
-		System.out.println("每对顶点的最短路径如下：");
+//		System.out.println("每对顶点的最短路径如下：");
 		for(int i=0;i<n;i++){
 			for(int j=0;j<n;j++){
 				if(i!=j){
-//					System.out.print(toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j))+",");
-					String str=String.format("%16s", toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j)));
-					System.out.print(str);
+//					String str=String.format("%16s", toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j)));
+					String str=toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j));
+//					System.out.print(str);
+					result.set(i, j, str);
+				}
+				else{
+					result.set(i, j, "0");
 				}
 			}
-			System.out.println();
+//			System.out.println();
 		}
+		System.out.println(result.get(t, s)); 
 	}
 	
-	private String toPath(Matrix path,int i,int j){		//返回path路径矩阵中从顶点vi到vj的一条路径字符串
+	private String toPath(Matrix path,int i,int j){					//返回path路径矩阵中从顶点vi到vj的一条路径字符串
 		SinglyList<String> pathlink=new SinglyList<String>();		//单链表，记录最短路径经过顶点，用于反序
 		pathlink.insert(0, (String) this.getVertex(j));				//单链表插入最短路径终点vj
 		for(int k=path.get(i, j);k!=i&&k!=j&&k!=-1;k=path.get(i, k)){
@@ -209,7 +215,6 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 	
 	//所有路径
 	public void FindAllPath(int i,int goal){
-//		int value[][]={{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
 		Matrix visited=new Matrix(this.vertexCount(),this.vertexCount());	//存储边是否被访问
 		for(int m=0;m<this.vertexCount();m++){
 			for(int n=0;n<this.vertexCount();n++){
@@ -220,19 +225,12 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 		}																	//将自身和没有边连接的设为-1，其余为0表示未被访问，当为1时表示已访问
 		
 		SeqStack path=new SeqStack();										//顺序栈存储路径
-		path.push(i);														//起点入栈
-//		path.outPut();
-//		int j=this.next(i, 0);												//初始化j
-		int j=0;
-//		boolean allVisited=false;
-//		boolean end=false;
-//		int m=j;
+		path.push(i);														//起点入栈															
+		int j=0;															//初始化j
 		while(path.isEmpty()==false){
-//		while(end=true){
 			if(visited.get(i, j)!=0||path.inStack(j)==true){
 				for(int k=0;k<this.vertexCount();k++){
 					if(visited.get(i, k)==0&&path.inStack(k)==false&&i!=k){
-//						j=this.next(i, k);
 						j=k;
 						break;
 					}
@@ -257,7 +255,6 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 				visited.set(i, j, 1);
 				visited.set(j, i, 1);
 				i=j;
-//				j=this.next(i, 0);
 				j=0;
 			}
 			boolean allVisited=true;
@@ -283,21 +280,21 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 				}
 				for(int k=0;k<this.vertexCount();k++){
 					if(visited.get(i, k)==0&&path.inStack(k)==false){
-//						j=this.next(i, k);
 						j=k;
 						break;
 					}
 				}
 			}
-//			System.out.println(path.peek());
 			if(path.peek()==goal&&i>-1){
 				path.outPut();
+//				for(int m=0;m<path.outPut().length;m++){
+//					System.out.print((String)this.getVertex(path.outPut()[m])+" ");
+//				}
 				System.out.println();
 				path.pop();
 				i=path.peek();
 				for(int k=0;k<this.vertexCount();k++){
 					if(visited.get(i, k)==0&&path.inStack(k)==false){
-//						j=this.next(i, k);
 						j=k;
 						break;
 					}

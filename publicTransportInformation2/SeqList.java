@@ -32,7 +32,6 @@ public class SeqList<String> extends Object {
 	}
 	public Node getOne(int i){
 		if(i>=0 && i<this.n){
-//			Object source=new Object();
 			Node source=new Node((String)this.element[i],null);
 			return source;
 		}

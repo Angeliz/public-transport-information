@@ -1,5 +1,6 @@
 package publicTransportInformation2;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 //需求：
@@ -20,6 +21,10 @@ public class Test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String[] vertices={"A","B","C","D","E"};
+		HashMap<String , Integer> map = new HashMap<String , Integer>(); 
+		for(int i=0;i<vertices.length;i++){
+			map.put(vertices[i], i);
+		}
 		Triple edges[]={new Triple(0,1,45),new Triple(0,2,28),new Triple(0,3,10),
 				new Triple(1,0,45),new Triple(1,2,12),new Triple(1,4,21),
 				new Triple(2,0,28),new Triple(2,1,12),new Triple(2,3,17),new Triple(2,4,26),
@@ -28,12 +33,42 @@ public class Test {
 		};
 		MatrixGraph<String> graph=new MatrixGraph<String>(vertices,edges);
 		System.out.println(graph.toString());
-//		Scanner in=new Scanner(System.in);
-//		System.out.println("请输入源点：");
-//		String str=in.nextLine();
-//		str=str.toUpperCase();
-		graph.shortestPath();
-		graph.FindAllPath(3,4);
+		
+		while(true){
+			System.out.println("请选择您的需求："+"\n"+"查找两点之间最短路径请输入:1"+"\n"+"查找两点之间所有路径请输入:2"+"\n"+"结束算法请输入:3");
+			Scanner in=new Scanner(System.in);
+			int num=in.nextInt();
+			if(num==1){
+				System.out.println("请输入起点");
+				Scanner startIn=new Scanner(System.in);
+				String str=startIn.nextLine();
+				int start=map.get(str);
+				System.out.println("请输入终点");
+				Scanner endIn=new Scanner(System.in);
+				str=endIn.nextLine();
+				int end=map.get(str);
+				graph.shortestPath(start,end);
+			}
+			if(num==2){
+				System.out.println("请输入起点");
+				Scanner startIn=new Scanner(System.in);
+				String str=startIn.nextLine();
+				int start=map.get(str);
+				System.out.println("请输入终点");
+				Scanner endIn=new Scanner(System.in);
+				str=endIn.nextLine();
+				int end=map.get(str);
+//				graph.shortestPath(start,end);
+				graph.FindAllPath(start,end);
+			}
+			if(num==3){
+				System.out.println("程序已结束");
+				break;
+			}
+		}
+		
+		
+		
 	}
 
 }

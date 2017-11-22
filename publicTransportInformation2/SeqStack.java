@@ -1,10 +1,10 @@
 package publicTransportInformation2;
 
-
+import java.sql.Array;
 
 public class SeqStack {
 	private SeqList list;						//使用顺序表存储栈元素
-	public int startLength=0;
+	public int startLength=0;					//实际栈元素个数，只用于本程序
 	public SeqStack(int length){						//构造容量为length的空栈
 		this.list=new SeqList<String>(length);			
 	}
@@ -30,11 +30,6 @@ public class SeqStack {
 	
 	public boolean inStack(int i){
 		int[] duplicates=new int[this.startLength];
-//		SeqStack reverse=new SeqStack();
-//		while(this.isEmpty()==false){
-//			reverse.push(this.peek());
-//			this.pop();
-//		}
 		for(int j=0;j<duplicates.length;j++){
 			duplicates[duplicates.length-j-1]=this.peek();
 			this.pop();
@@ -42,13 +37,6 @@ public class SeqStack {
 		for(int j=0;j<duplicates.length;j++){
 			this.push(duplicates[j]);
 		}
-//		while(reverse.isEmpty()==false&&reverse.peek()!=i){
-//			this.push(reverse.peek());
-//			reverse.pop();
-//			if(reverse.isEmpty()==true){
-//				return false;
-//			}
-//		}
 		for(int j=0;j<duplicates.length;j++){
 			if(duplicates[j]==i){
 				return true;
@@ -58,6 +46,8 @@ public class SeqStack {
 	}
 	public void outPut(){							//反序输出栈内元素
 		SeqStack reverse=new SeqStack();
+//		System.out.println(this.startLength);
+//		int[] arr=new int[this.startLength];
 		while(this.isEmpty()==false){
 			reverse.push(this.peek());
 			this.pop();
@@ -67,6 +57,12 @@ public class SeqStack {
 			this.push(reverse.peek());
 			reverse.pop();
 		}
+//		for(int i=0;i<this.startLength;i++){
+//			arr[i]=reverse.peek();
+//			this.push(reverse.peek());
+//			reverse.pop();
+//		}
+//		return arr;
 	}
 	
 	
