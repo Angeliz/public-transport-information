@@ -3,8 +3,8 @@ package publicTransportInformation2;
 import java.sql.Array;
 
 public class SeqStack {
-	private SeqList list;						//使用顺序表存储栈元素
-	public int startLength=0;					//实际栈元素个数，只用于本程序
+	private SeqList list;								//使用顺序表存储栈元素
+	public int startLength=0;							//实际栈元素个数，只用于本程序
 	public SeqStack(int length){						//构造容量为length的空栈
 		this.list=new SeqList<String>(length);			
 	}
@@ -18,17 +18,17 @@ public class SeqStack {
 		this.list.insert(x);							//尾插入
 		startLength++;
 	}
-	public int peek(){								//返回栈顶元素
+	public int peek(){									//返回栈顶元素
 		return (int) this.list.get(list.size()-1);
 	}
-	public int pop(){								//出栈
+	public int pop(){									//出栈
 		startLength--;
 		return (int)list.remove(list.size()-1);
 		
 	}
 	
 	
-	public boolean inStack(int i){
+	public boolean inStack(int i){						//判断某个元素是否在栈中
 		int[] duplicates=new int[this.startLength];
 		for(int j=0;j<duplicates.length;j++){
 			duplicates[duplicates.length-j-1]=this.peek();
@@ -44,25 +44,28 @@ public class SeqStack {
 		}
 		return false;
 	}
-	public void outPut(){							//反序输出栈内元素
-		SeqStack reverse=new SeqStack();
-//		System.out.println(this.startLength);
-//		int[] arr=new int[this.startLength];
-		while(this.isEmpty()==false){
-			reverse.push(this.peek());
-			this.pop();
-		}
-		while(reverse.isEmpty()==false){
-			System.out.print(reverse.peek()+" ");
-			this.push(reverse.peek());
-			reverse.pop();
-		}
-//		for(int i=0;i<this.startLength;i++){
-//			arr[i]=reverse.peek();
+//	public void outPut(){								//反序输出栈内元素
+//		SeqStack reverse=new SeqStack();
+//		while(this.isEmpty()==false){
+//			reverse.push(this.peek());
+//			this.pop();
+//		}
+//		while(reverse.isEmpty()==false){
+//			System.out.print(reverse.peek()+" ");
 //			this.push(reverse.peek());
 //			reverse.pop();
 //		}
-//		return arr;
+//	}
+	public int[] outPut(){								//将栈内元素转化为数组
+		int[] arr=new int[this.startLength];
+		for(int i=this.startLength-1;i>=0;i--){
+			arr[i]=this.peek();
+			this.pop();
+		}
+		for(int i=0;i<arr.length;i++){
+			this.push(arr[i]);
+		}
+		return arr;
 	}
 	
 	

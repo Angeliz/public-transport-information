@@ -286,10 +286,10 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 				}
 			}
 			if(path.peek()==goal&&i>-1){
-				path.outPut();
-//				for(int m=0;m<path.outPut().length;m++){
-//					System.out.print((String)this.getVertex(path.outPut()[m])+" ");
-//				}
+				//输出此时的路径
+				for(int m=0;m<path.outPut().length;m++){
+					System.out.print((String)this.getVertex(path.outPut()[m])+"  ");
+				}
 				System.out.println();
 				path.pop();
 				i=path.peek();
