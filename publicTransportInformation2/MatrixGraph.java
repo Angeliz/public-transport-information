@@ -164,7 +164,7 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 		int n=this.vertexCount();							//图的顶点数
 		Matrix path=new Matrix(n);							//最短路径矩阵,初值为0
 		Matrix dist=new Matrix(n);							//长度矩阵，同上
-		MatrixString result=new MatrixString(n);						//矩阵存储最终结果
+		MatrixString result=new MatrixString(n);			//矩阵存储最终结果
 		for(int i=0;i<n;i++){								//初始化两个矩阵
 			for(int j=0;j<n;j++){
 				int w=this.weight(i, j);
@@ -190,7 +190,9 @@ public class MatrixGraph<T> extends AbstractGraph<T> {		//邻接矩阵表示的带权图类
 			for(int j=0;j<n;j++){
 				if(i!=j){
 //					String str=String.format("%16s", toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j)));
-					String str=toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j));
+					//输出路径带数值，但是想把路径和票价合成一张图，所以就先不输出数值了orz
+//					String str=toPath(path,i,j)+"长度"+(dist.get(i, j)==MAX_WEIGHT?"∞":dist.get(i, j));	
+					String str=toPath(path,i,j);
 //					System.out.print(str);
 					result.set(i, j, str);
 				}
